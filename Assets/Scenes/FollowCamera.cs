@@ -7,8 +7,8 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] GameObject thingToFollow; 
     //this things position (camera) should be same as the car position
 
-    void Update()
+    void LateUpdate()
     {
-        transform.position = thingToFollow.transform.position;
+        transform.position = thingToFollow.transform.position + new Vector3 (0,0,-10);
     }
 }
