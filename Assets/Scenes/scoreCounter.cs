@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class scoreCounter : MonoBehaviour
 {
-    public TMP_Text score;
+    public TMP_Text Time;
 
     public float Time_Counter;
     // Start is called before the first frame update
@@ -18,8 +18,8 @@ public class scoreCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Time_Counter += (Time.deltaTime);
-        score.text = (2 - (int)Time_Counter / 60).ToString() + ":" + (59 - (int)Time_Counter % 60).ToString();
+        Time_Counter += (UnityEngine.Time.deltaTime);
+        Time.text = (2 - (int)Time_Counter / 60).ToString() + ":" + (59 - (int)Time_Counter % 60).ToString();
     }
 
     // IEnumerator endGame()
