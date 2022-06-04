@@ -13,9 +13,12 @@ public class Delivery : MonoBehaviour
     public SpriteRenderer spriteRenderer2;
     public SpriteRenderer post1;
     public SpriteRenderer post2;
+    public SpriteRenderer boost;
     public Sprite rick;
     public Sprite packOn;
     public Sprite packOff;
+    public AudioSource pickup;
+    public AudioSource drop;
     public TMP_Text score;
     public int i = 0; 
     Vector3[] spawnpos = new Vector3[22] { new Vector3(-35, 23.1000004f, 0), new Vector3(-22.2000008f, 22.8999996f, 0), new Vector3(-77.5999985f, 3.79999995f, 0), new Vector3(-11.3000002f, 22.5f, 0), new Vector3(-56.7000008f, -2.30000114f, 0), new Vector3(-1.70000076f, 21.5999985f, 0), new Vector3(-78.4000015f, -36.8000031f, 0), new Vector3(-50.9000015f, -63.1999969f, 0), new Vector3(1.40000153f, 10, 0), new Vector3(-24.6000004f, -19.1999989f, 0), new Vector3(-57.7999992f, -30.5000019f, 0), new Vector3(-22.7000008f, -56, 0), new Vector3(0, 0, 0), new Vector3(-35.9000015f, -27, 0), new Vector3(-35.7999992f, -55.7999954f, 0), new Vector3(-2, -54.6999969f, 0), new Vector3(-35.4000015f, -6.60000038f, 0), new Vector3(-23.7000008f, -14, 0), new Vector3(1.20000076f, -43.4000015f, 0), new Vector3(-12.2000008f, -55.4000015f, 0), new Vector3(-12.9000015f, -7.39999962f, 0), new Vector3(-13.5999985f, -27.1000004f, 0) };
@@ -27,6 +30,8 @@ public class Delivery : MonoBehaviour
     {
         i++;
         Instantiate(spriteRenderer1, spawnpos[i], Quaternion.identity);
+        if (i % 3 == 0) 
+            Instantiate(boost, spawnpos[(i + 1)%21], Quaternion.identity);
     }
     
     void change()
@@ -41,7 +46,7 @@ public class Delivery : MonoBehaviour
 
     public void LateUpdate()
     {
-        score.text = "Score : " + i.ToString();
+        score.text = "Score : " + i.ToString("D2");
         Debug.Log("In LateUpdate "+ hasPackage);
         spriteRenderer2.transform.position = transform.position;
         if (hasPackage)
@@ -72,7 +77,7 @@ public class Delivery : MonoBehaviour
             hasPackage = true;
             Destroy(other.gameObject,delay);
             Invoke("change",delay);
-            spawn();
+            pickup.PlayDelayed(delay);
         }
         else if (other.tag == "Customer" && hasPackage)
         {
@@ -86,7 +91,11 @@ public class Delivery : MonoBehaviour
                 Debug.Log("Package delivered");
                 hasPackage = false;
                 Invoke("changeBack", delay);
+                drop.PlayDelayed(delay);
+                spawn();
             }
         }
+        if(other.tag == "Boost")
+            Destroy(other.gameObject, delay);
     }
 }

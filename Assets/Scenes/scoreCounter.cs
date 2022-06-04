@@ -19,7 +19,7 @@ public class scoreCounter : MonoBehaviour
     void Update()
     {
         Time_Counter += (UnityEngine.Time.deltaTime);
-        Time.text = (2 - (int)Time_Counter / 60).ToString() + ":" + (59 - (int)Time_Counter % 60).ToString();
+        Time.text = (2 - (int)Time_Counter / 60).ToString("D2") + ":" + (59 - (int)Time_Counter % 60).ToString("D2");
     }
 
     // IEnumerator endGame()
